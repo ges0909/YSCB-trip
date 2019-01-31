@@ -136,18 +136,18 @@ LICENSE file.
     <module>geode</module>
     <module>googlebigtable</module>
     <module>googledatastore</module>
-    <module>hbase098</module>
-    <module>hbase10</module>
-    <module>hbase12</module>
-    <module>hbase14</module>
-    <module>hbase20</module>
+    <!--<module>hbase098</module>-->
+    <!--<module>hbase10</module>-->
+    <!--<module>hbase12</module>-->
+    <!--<module>hbase14</module>-->
+    <!--<module>hbase20</module>-->
     <module>hypertable</module>
     <module>ignite</module>
     <module>infinispan</module>
     <module>jdbc</module>
     <module>kudu</module>
     <!--<module>mapkeeper</module>-->
-    <module>maprdb</module>
+    <!--<module>maprdb</module>-->
     <module>maprjsondb</module>
     <module>memcached</module>
     <module>mongodb</module>
