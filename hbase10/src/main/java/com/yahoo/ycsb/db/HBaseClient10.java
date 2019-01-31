@@ -519,7 +519,7 @@ public class HBaseClient10 extends com.yahoo.ycsb.DB {
   }
 
   // Only non-private for testing.
-  void setConfiguration(final Configuration newConfig) {
+  public void setConfiguration(final Configuration newConfig) {
     this.config = newConfig;
   }
 }

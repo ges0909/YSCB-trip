@@ -61,7 +61,7 @@ public class HBaseClient20Test {
   private static HBaseTestingUtility testingUtil;
   private HBaseClient20 client;
   private Table table = null;
-  private String tableName;
+  private TableName tableName;
 
   private static boolean isWindows() {
     final String os = System.getProperty("os.name");
@@ -109,8 +109,9 @@ public class HBaseClient20Test {
     final CoreWorkload workload = new CoreWorkload();
     workload.init(p);
 
-    tableName = p.getProperty(TABLENAME_PROPERTY, TABLENAME_PROPERTY_DEFAULT);
-    table = testingUtil.createTable(TableName.valueOf(tableName), Bytes.toBytes(COLUMN_FAMILY));
+    String _tableName = p.getProperty(TABLENAME_PROPERTY, TABLENAME_PROPERTY_DEFAULT);
+    tableName = TableName.valueOf(_tableName);
+    table = testingUtil.createTable(tableName, Bytes.toBytes(COLUMN_FAMILY));
 
     client.setProperties(p);
     client.init();
@@ -133,7 +134,7 @@ public class HBaseClient20Test {
     table.put(p);
 
     final HashMap<String, ByteIterator> result = new HashMap<String, ByteIterator>();
-    final Status status = client.read(tableName, rowKey, null, result);
+    final Status status = client.read(tableName.getNameAsString(), rowKey, null, result);
     assertEquals(Status.OK, status);
     assertEquals(2, result.size());
     assertEquals("value1", result.get("column1").toString());
@@ -143,7 +144,7 @@ public class HBaseClient20Test {
   @Test
   public void testReadMissingRow() throws Exception {
     final HashMap<String, ByteIterator> result = new HashMap<String, ByteIterator>();
-    final Status status = client.read(tableName, "Missing row", null, result);
+    final Status status = client.read(tableName.getNameAsString(), "Missing row", null, result);
     assertEquals(Status.NOT_FOUND, status);
     assertEquals(0, result.size());
   }
@@ -169,7 +170,7 @@ public class HBaseClient20Test {
         new Vector<HashMap<String, ByteIterator>>();
 
     // Scan 5 records, skipping the first
-    client.scan(tableName, "00001", 5, null, result);
+    client.scan(tableName.getNameAsString(), "00001", 5, null, result);
 
     assertEquals(5, result.size());
     for(int i = 0; i < 5; i++) {
@@ -189,7 +190,7 @@ public class HBaseClient20Test {
     final HashMap<String, String> input = new HashMap<String, String>();
     input.put("column1", "value1");
     input.put("column2", "value2");
-    final Status status = client.insert(tableName, key, StringByteIterator.getByteIteratorMap(input));
+    final Status status = client.insert(tableName.getNameAsString(), key, StringByteIterator.getByteIteratorMap(input));
     assertEquals(Status.OK, status);
 
     // Verify result

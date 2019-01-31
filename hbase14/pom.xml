@@ -67,7 +67,6 @@ LICENSE file.
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-<!-- blocked on HBASE-15666
     <dependency>
       <groupId>org.apache.hbase</groupId>
       <artifactId>hbase-testing-util</artifactId>
@@ -80,6 +79,5 @@ LICENSE file.
         </exclusion>
       </exclusions>
     </dependency>
--->
   </dependencies>
 </project>
