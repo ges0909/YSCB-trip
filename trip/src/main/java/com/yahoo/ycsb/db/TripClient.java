@@ -1,34 +1,44 @@
 package com.yahoo.ycsb.db;
 
 import com.tietoenator.trip.jxp.TdbException;
-import com.tietoenator.trip.jxp.database.TdbDatabaseDesign;
 import com.tietoenator.trip.jxp.session.TdbSession;
+import com.tietoenator.trip.jxp.session.TdbTripNetSession;
 import com.yahoo.ycsb.ByteIterator;
 import com.yahoo.ycsb.DB;
 import com.yahoo.ycsb.DBException;
 import com.yahoo.ycsb.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class TripClient extends DB {
 
+  private static final Logger LOG = LoggerFactory.getLogger(TripClient.class);
+  private TdbSession session;
+
   @Override
   public void init() throws DBException {
     super.init();
     Properties properties = super.getProperties();
-    // open trip connection to establish a session
-    TdbSession session = SessionFactory.newInstance("**** Create Database ****", false);
     try {
-      TdbDatabaseDesign db = new TdbDatabaseDesign(session);
+      session = new TdbTripNetSession("infforgebln01", 23567, false);
+      session.login("system", "admin");
     } catch (TdbException e) {
-      e.printStackTrace();
+      LOG.error(e.getLocalizedMessage());
     }
+    LOG.info("Session to TRIP established successfully.");
   }
 
   @Override
   public void cleanup() throws DBException {
-    // close trip connection
+    try {
+      session.logout();
+    } catch (TdbException e) {
+      LOG.error(e.getLocalizedMessage());
+    }
     super.cleanup();
+    LOG.info("Session to TRIP closed.");
   }
 
   @Override

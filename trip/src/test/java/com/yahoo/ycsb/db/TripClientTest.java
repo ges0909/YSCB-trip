@@ -1,38 +1,27 @@
 package com.yahoo.ycsb.db;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import com.yahoo.ycsb.DBException;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-/**
- * Unit test for simple TripClient.
- */
-public class TripClientTest
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public TripClientTest(String testName )
-    {
-        super( testName );
-    }
+public class TripClientTest {
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( TripClientTest.class );
-    }
+  private static TripClient tripClient;
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+  @BeforeClass
+  public static void setUp() {
+    tripClient = new TripClient();
+  }
+
+  @AfterClass
+  public static void tearDown() throws DBException {
+    tripClient.cleanup();
+  }
+
+  @Test
+  public void establishTripSession() throws DBException {
+    tripClient.init();
+  }
 }
